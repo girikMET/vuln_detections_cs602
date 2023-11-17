@@ -2,11 +2,11 @@ import { spawn, exec } from 'child_process';
 import path from 'path';
 import express from 'express';
 import { config } from 'dotenv';
-
+import util from 'util'; 
 config();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
+const executeScript = util.promisify(exec);
 
 app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(express.json());
@@ -23,9 +23,8 @@ function handleRoute(req, res, fileName) {
 
 app.post('/scan-repo', async (req, res) => {
   const { repoUrl } = req.body;
-  
   try {
-    await exec(`python3 trivy_detection.py --repo ${repoUrl}`);
+    const { stdout, stderr } = await executeScript(`python3 trivy_detection.py --repo ${repoUrl}`);
     res.status(200).end();
   } catch (error) {
     console.error(`Error executing the script: ${error}`);
