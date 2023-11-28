@@ -36,7 +36,6 @@ app.get('/:page', (req, res) => {
   const { page } = req.params;
 
   if (page === 'scan-repo' || page.endsWith('.json')) {
-    console.log(page);
   } else {
     handleRoute(req, res, `${page}.html`);
   }
