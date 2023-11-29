@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/girikMET/vuln_detections.git"
+    "url": "git+https://github.com/girikMET/vuln_detections_cs602.git"
   },
   "keywords": [
     "Vulnerability",
@@ -22,9 +22,9 @@
   "author": "girik@bu.edu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/girikMET/vuln_detections/issues"
+    "url": "https://github.com/girikMET/vuln_detections_cs602/issues"
   },
-  "homepage": "https://github.com/girikMET/vuln_detections#readme",
+  "homepage": "https://github.com/girikMET/vuln_detections_cs602#readme",
   "type": "module",
   "dependencies": {
     "dotenv": "^16.3.1",
