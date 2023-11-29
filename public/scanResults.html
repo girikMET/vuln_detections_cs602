@@ -8,7 +8,7 @@
       <script type='text/javascript' src='https://trivy.dev/wp-content/themes/trivy_v1/js/trivy_v1.js?ver=1.0.28' id='trivy_v1-js'></script>
       <script src="js/scripts.js"></script>
       <script type="module">
-         import { initialize } from './js/file_parser.js';
+         import { initialize } from './js/loadVuln.js';
          document.addEventListener('DOMContentLoaded', initialize);
       </script>
    </head>
@@ -50,17 +50,6 @@
                   <h2 id="scanTitle" style="color: white; font-size: 1.5em;">Vulnerability Scan Results</h2>
                   <script src="js/urlRepo.js"></script>
                   <table id="vulnerabilityTable" class="table"></table>
-               </div>
-            </div>
-            <div class="homepage_background_image_wrap">
-               <div class="stars_wrap">
-                  <div class="stars_bg"></div>
-               </div>
-               <div class="terrain_wrap"></div>
-               <div class="beams_wrap">
-                  <div class="beam"></div>
-                  <div class="beam num4"></div>
-                  <div class="sphere"></div>
                </div>
             </div>
          </div>

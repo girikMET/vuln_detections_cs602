@@ -6,10 +6,9 @@ const showNotImplementedMessage = (event) => {
 document.addEventListener('DOMContentLoaded', () => {
    const repositoryUrlInput = document.getElementById('githubUrl');
    const generateReportBtn = document.getElementById('generateReportBtn');
-
+   
    if (generateReportBtn) {
       generateReportBtn.disabled = true;
-
       if (repositoryUrlInput) {
          repositoryUrlInput.addEventListener('input', () => {
             const isValidUrl = validateRepositoryUrl(repositoryUrlInput.value);
@@ -30,28 +29,23 @@ document.addEventListener('DOMContentLoaded', () => {
    if (repositoryForm) {
       repositoryForm.addEventListener('submit', async (e) => {
          e.preventDefault();
-
          generateReportBtn.disabled = true;
-
          const loadingMessage = document.createElement('div');
          loadingMessage.id = 'loadingMessage';
          loadingMessage.innerText = 'Loading... Please wait.';
          loadingMessage.style.color = 'white';
          document.body.appendChild(loadingMessage);
-
          const repositoryUrl = repositoryUrlInput ? repositoryUrlInput.value : '';
          const isValidUrl = validateRepositoryUrl(repositoryUrl);
          if (!isValidUrl) {
             alert('Invalid repository URL');
             return;
          }
-
          if (generateReportBtn.value === 'Validate') {
             await checkRepositoryExists(repositoryUrl);
          } else if (generateReportBtn.value === 'Submit') {
             await scanRepo(repositoryUrl);
          }
-
          document.getElementById('loadingMessage') && document.body.removeChild(loadingMessage);
          generateReportBtn.disabled = false;
       });
@@ -94,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
    const scanRepo = async (repositoryUrl) => {
       const strippedUrl = repositoryUrl.replace(/^(https?:\/\/)?(www\.)?github\.com\//, '');
-      let destinationURL = '/scan_results?path=' + strippedUrl + '.json';
+      let destinationURL = '/scanResults?path=' + strippedUrl + '.json';
       const response = await fetch('/scan-repo', {
          method: 'POST',
          headers: {
