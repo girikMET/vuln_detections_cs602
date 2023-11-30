@@ -9,7 +9,29 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const executeScript = util.promisify(exec);
 app.use(express.static(path.join(process.cwd(), 'public')));
+
+// MongoDB
+import { MongoClient, ServerApiVersion } from 'mongodb';
+const uri = "mongodb+srv://giri:Admin%2123@giri-mongodb.dtwc2bc.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+  serverApi: ServerApiVersion.v1,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  tls: true, // Enable TLS/SSL connection
+  tlsAllowInvalidCertificates: true
+});
 app.use(express.json());
+
+app.get('/items', async (req, res) => {
+  try {
+    await client.connect();
+    const collection = client.db("vulnerabilities").collection("mitre");
+    const items = await collection.find({}).toArray();
+    res.json(items);
+  } finally {
+    await client.close();
+  }
+});
 
 app.get('/config', (req, res) => {
   res.json({
