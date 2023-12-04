@@ -6,7 +6,7 @@ const showNotImplementedMessage = (event) => {
 document.addEventListener('DOMContentLoaded', () => {
    const repositoryUrlInput = document.getElementById('githubUrl');
    const generateReportBtn = document.getElementById('generateReportBtn');
-   
+
    if (generateReportBtn) {
       generateReportBtn.disabled = true;
       if (repositoryUrlInput) {
