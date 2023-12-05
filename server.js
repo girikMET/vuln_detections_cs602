@@ -1,11 +1,16 @@
+import fs from 'fs';
 import path from 'path';
 import util from 'util';
 import express from 'express';
 import { config } from 'dotenv';
+import fetch from 'node-fetch';
 import validator from 'validator';
 import bodyParser from 'body-parser';
 import { spawn, exec } from 'child_process';
-config();
+const secretsPath = path.resolve('/etc/secrets', '.env');
+const localPath = path.resolve('./.env');
+const pathToEnv = fs.existsSync(secretsPath) ? secretsPath : localPath;
+config({ path: pathToEnv });
 const app = express();
 app.use(bodyParser.json());
 const PORT = process.env.PORT || 3000;
@@ -84,11 +89,30 @@ app.put('/items/:vulnerabilityId', async (req, res) => {
    }
 });
 
-app.get('/config', (req, res) => {
-   res.json({
-      GitHubToken: process.env.GitHubToken
-   });
-});
+app.get('/check-repo', async (req, res) => {
+   const repositoryUrl = req.query.url;
+   const apiUrl = `https://api.github.com/repos/${repositoryUrl}`;
+   try {
+      const response = await fetch(apiUrl, {
+         headers: {
+            'Authorization': `token ${process.env.GitHubToken}`
+         }
+      });
+      if (response.ok) {
+         res.json({
+            exists: true
+         });
+      } else {
+         res.json({
+            exists: false
+         });
+      }
+   } catch (error) {
+      res.status(500).json({
+         error: 'Internal Server Error'
+      });
+   }
+ });
 
 function handleRoute(req, res, fileName) {
    res.sendFile(path.join(process.cwd(), 'public', fileName));
